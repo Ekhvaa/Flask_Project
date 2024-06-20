@@ -37,6 +37,11 @@ class Film:
         genres = self.response["Genre"]
         return genres
 
+    @property
+    def poster(self):
+        poster = self.response["Poster"]
+        return poster
+
     def plot(self):
         try:
             plot = self.response["Plot"]
@@ -45,18 +50,19 @@ class Film:
             print("The summary of the plot is not in the provided data.")
 
 
-user_input = input("Enter a film: ")
-movie = Film(user_input)
-req = movie.request()
-
-if movie.response["Response"] == "True":
-    structured_data = json.dumps(movie.response, indent=4)
-    print(structured_data)
-    print(movie.genres)
-    print(movie.title)
-    print(movie.plot())
-    print(movie.rating)
-    print(req.status_code)
-    print(req.headers)
-elif movie.response["Response"] == "False":
-    print("The film was not found.")
+# user_input = input("Enter a film: ")
+# movie = Film(user_input)
+# req = movie.request()
+#
+# if movie.response["Response"] == "True":
+#     # structured_data = json.dumps(movie.response, indent=4)
+#     # print(structured_data)
+#     # print(movie.genres)
+#     # print(movie.title)
+#     # print(movie.plot())
+#     # print(movie.rating)
+#     # print(req.status_code)
+#     # print(req.headers)
+#     print(movie.poster)
+# elif movie.response["Response"] == "False":
+#     print("The film was not found.")
