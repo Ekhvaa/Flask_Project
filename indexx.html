@@ -1,7 +1,13 @@
 {% extends 'basee.html' %}
 
 {% block content %}
-    <h1>Home Page</h1>
+    <form method="POST" action="/home">
+        <div class="mb-3">
+            <label class="form-label">Search</label>
+            <input type="text" name="user_input" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 {% endblock %}
 
 {% block title %}
