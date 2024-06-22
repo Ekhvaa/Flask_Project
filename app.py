@@ -5,7 +5,7 @@ from api import Film
 
 app = Flask(__name__)
 app.secret_key = "bacho123"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Filmebiiii.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Filmebiiiii.sqlite'
 db = SQLAlchemy(app)
 
 
@@ -21,6 +21,7 @@ class Movies(db.Model):
     film_genre = db.Column(db.String(100), nullable=False)
     film_rating = db.Column(db.Float, nullable=False)
     film_plot = db.Column(db.Text, nullable=False)
+    film_poster_link = db.Column(db.Text, nullable=False)
 
 
 with app.app_context():
@@ -30,36 +31,34 @@ with app.app_context():
 @app.route('/', methods=["POST", "GET"])
 @app.route("/home", methods=["POST", "GET"])
 def home():
-    if request.method == "POST":
-        # print("Form Data:", request.form)
-        usr_inpt = request.form.get("user_input")
-        if usr_inpt:
-            movie = Film(usr_inpt)
-            t = movie.title
-            g = movie.genres
-            r = movie.rating
-            p = movie.plot()
-            filmi = Movies(film_title=t, film_genre=g, film_rating=r, film_plot=p)
-            db.session.add(filmi)
-            db.session.commit()
-            return redirect(url_for('result'))
-        else:
-            flash('No input received. Please enter a film name.')
-            return redirect(url_for('home'))
+    usr_inpt = request.form.get("user_input")
+    if usr_inpt:
+        movie = Film(usr_inpt)
+        t = movie.title
+        g = movie.genres
+        r = movie.rating
+        p = movie.plot()
+        poster = movie.poster
+        filmi = Movies(film_title=t, film_genre=g, film_rating=r, film_plot=p, film_poster_link=poster)
+        db.session.add(filmi)
+        db.session.commit()
+        return redirect(url_for('result'))
+    else:
+        flash('No input received. Please enter a film name.')
     return render_template("indexx.html")
 
 
 @app.route('/login', methods=["POST", "GET"])
 def login():
     if request.method == "POST":
-        user = request.form["user_email"]
-        passwd = generate_password_hash(request.form["user_password"])
+        user = request.form["username"]
+        passwd = generate_password_hash(request.form["password"])
         usr1 = User(username=user, password=generate_password_hash(passwd))
         db.session.add(usr1)
         db.session.commit()
-        session["user_email"] = user
+        session["username"] = user
         return redirect('/home')
-    return render_template("loginn.html")
+    return render_template("aaa.html")
 
 
 @app.route('/logout')
@@ -71,15 +70,12 @@ def logout():
 @app.route('/result')
 def result():
     latest_movie = Movies.query.order_by(Movies.id.desc()).first()
-    if latest_movie:
-        movie_title = latest_movie.film_title
-        movie_genres = latest_movie.film_genre
-        movie_rating = latest_movie.film_rating
-        movie_plot = latest_movie.film_plot
-    else:
-        movie_title = "No movies found."
-        print(movie_title)
-    return "Hello"
+    return render_template('result.html',
+            movie_title=latest_movie.film_title,
+            movie_genre=latest_movie.film_genre,
+            movie_rating=latest_movie.film_rating,
+            movie_plot=latest_movie.film_plot,
+            movie_poster=latest_movie.film_poster_link)
 
 
 if __name__ == "__main__":
