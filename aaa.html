@@ -1,0 +1,33 @@
+{% extends 'basee.html' %}
+
+{%block content%}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Login</h3>
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label">User</label>
+                            <input type="text" name="username" class="form-control"  placeholder="Enter your Username">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name='password' class="form-control" placeholder="Enter your Password">
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+
+{%block title%}
+<title>Log in</title>
+{%endblock%}
