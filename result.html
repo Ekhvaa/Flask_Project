@@ -1,6 +1,34 @@
-{% extends basee.html %}
+{% extends "basee.html" %}
+
+{% block title %}
+  <title>Movie Detail</title>
+{% endblock %}
+
+{% block styles %}
+  <style>
+    .movie-container {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .movie-container img {
+      max-width: 200px;
+      margin-right: 20px;
+    }
+    .movie-info {
+      max-width: 600px;
+    }
+  </style>
+{% endblock %}
 
 {% block content %}
-
-
+  <div class="container movie-container">
+    <img src="{{ movie_poster }}" alt="Movie Poster">
+    <div class="movie-info">
+      <h2>{{ movie_title }}</h2>
+      <p><strong>Genre:</strong> {{ movie_genre }}</p>
+      <p><strong>Rating:</strong> {{ movie_rating }}</p>
+      <p><strong>Plot:</strong> {{ movie_plot }}</p>
+    </div>
+  </div>
 {% endblock %}
